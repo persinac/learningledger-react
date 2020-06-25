@@ -1,4 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Learning Ledger Front End - React
+
+## Resources
+ - GRPC issue upon first `npm i`? Go [here](https://github.com/grpc/grpc-node/issues/1183)
+ 
+
 
 ## Available Scripts
 
