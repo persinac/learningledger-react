@@ -26,8 +26,8 @@ export class Wrapper extends React.Component<InterfaceProps, InterfaceState> {
 		return (
 			<authUserContext.Consumer>
 				{authUser => {
-					console.log(`History: ${this.props.history.location.pathname}`);
-					console.log(authUser);
+					// console.log(`History: ${this.props.history.location.pathname}`);
+					// console.log(authUser);
 					if(this.props.history.location.pathname === '/pw-forget' || this.props.history.location.pathname === '/signup') {
 						// return <BackToSignIn />
 						return null;

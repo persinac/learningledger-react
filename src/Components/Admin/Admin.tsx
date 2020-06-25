@@ -11,6 +11,7 @@ export class Admin extends React.Component<InterfaceProps, {}> {
 	}
 
 	public render() {
+		console.log(this.props);
 		const {users, some_data}: any = this.props;
 		return (
 			<div>

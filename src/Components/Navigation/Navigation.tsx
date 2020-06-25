@@ -4,20 +4,37 @@ import * as ROUTES from '../../Constants/routes';
 import {SignOut} from '../SignOut';
 import {authUserContext} from '../../Firebase/AuthUserContext';
 import Nav from "react-bootstrap/Nav";
+import {withAuthorization} from "../../Firebase/withAuthorization";
+import * as ROLES from "../../Constants/roles";
+import {db} from "../../Firebase";
 
 interface INavState {
 	authUser: any
 }
 
 interface INavProps {
-	history: any
+	authUser: any
 }
 
-export default class Navigation extends React.Component {
-	render() {
+class NavigationComponent extends React.Component {
+	constructor(props: any) {
+		super(props);
+
+		this.state = {
+			users: null
+		};
+	}
+
+	public componentDidMount() { }
+
+	public render() {
+		// console.log(this.state);
 		return (
 			<authUserContext.Consumer>
-				{authUser => (authUser ? this.returnAuthorizedLogin() : this.returnNonAuthorizedLogin())}
+				{authUser => {
+					return (authUser ? this.returnAuthorizedLogin(!!authUser.roles[ROLES.ADMIN]) : this.returnNonAuthorizedLogin())
+					}
+				}
 			</authUserContext.Consumer>
 		);
 	}
@@ -26,7 +43,7 @@ export default class Navigation extends React.Component {
 		return (<div></div>);
 	}
 
-	private returnAuthorizedLogin() {
+	private returnAuthorizedLogin(isAdmin: boolean) {
 		return (
 			<Nav id={'primary-navbar'} className={'navbar navbar-expand-lg navbar-dark sticky-top bg-dark flex-md-nowrap p-0'}>
 				<div className={'navbar-brand col-sm-3 col-md-2 mr-0'}><a>WRF Center</a></div>
@@ -50,13 +67,7 @@ export default class Navigation extends React.Component {
 							}
 							}>Account</Link>
 						</li>
-						<li className={"nav-item"}>
-							<Link className={"nav-link"} to={ROUTES.ADMIN} onClick={(event) => {
-								this.removeActiveClasses();
-								(event.target as any).classList.toggle('active')
-							}
-							}>Admin</Link>
-						</li>
+						{isAdmin ? this.showAdmin() : null}
 						<li className={"nav-item"}>
 							<Link className={"nav-link"} to={ROUTES.LIST_OF_ORDERS} onClick={(event) => {
 								this.removeActiveClasses();
@@ -80,5 +91,20 @@ export default class Navigation extends React.Component {
 			e.classList.remove('active');
 		});
 	}
+
+	private showAdmin() {
+		return (<li className={"nav-item"}>
+			<Link className={"nav-link"} to={ROUTES.ADMIN} onClick={(event) => {
+				this.removeActiveClasses();
+				(event.target as any).classList.toggle('active')
+			}
+			}>Admin</Link>
+		</li>)
+	}
 }
 
+const authCondition = (authUser: any) => {
+	return !!authUser
+} ;
+
+export const Navigation = NavigationComponent;

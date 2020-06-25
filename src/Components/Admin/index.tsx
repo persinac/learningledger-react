@@ -28,8 +28,10 @@ class AdminComponent extends React.Component<{}, IState> {
 	}
 
 	public componentDidMount() {
-		// db.getUsers().then(snapshot =>
-		// 	this.setState(() => ({users: snapshot.val()}))
+		// no longer have permission to view everyone in firebase
+		// db.getUsers().then(snapshot => {
+		// 		this.setState(() => ({users: snapshot.val()}));
+		// 	}
 		// );
 
 		// const productURL = process.env.REACT_APP_BASE_API_URL + 'product';
@@ -65,7 +67,6 @@ class AdminComponent extends React.Component<{}, IState> {
 						<h2>Admin</h2>
 						<p>The admin page is only accessible by admins.</p>
 						<p>{navbarHeight}</p>
-
 						<div>
 							{this.renderList()}
 						</div>
@@ -76,7 +77,9 @@ class AdminComponent extends React.Component<{}, IState> {
 	}
 
 	private renderList() {
-		return (<div><p>There was a list here</p></div>)
+		if (this.state.users !== null) {
+			return (<div><p>I've mounted!!!</p></div>)
+		}
 		// if (this.state !== null) {
 		// 	return <ListOfProductOrders productHeader={this.state.productHeader} />
 		// }

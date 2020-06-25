@@ -41,7 +41,7 @@ export class GoogleSignIn extends React.Component<InterfaceProps, InterfaceState
 				// redirect if email is not found?
 				this.setState({error: null});
 				history.push(routes.HOME);
-				const roles = {isAdmin: true, isMember: false};
+				const roles = {isAdmin: false, isMember: true};
 				console.log(socialAuthUser.user);
 				// Create a user in your own accessible Firebase Database
 				db.doCreateUser(socialAuthUser.user.uid, socialAuthUser.user.email, socialAuthUser.user.email, roles)

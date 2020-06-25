@@ -1,6 +1,7 @@
 import React from "react";
-import { firebase } from "./index";
+import {db, firebase} from "./index";
 import { authUserContext } from "./AuthUserContext";
+import * as routes from "../Constants/routes";
 
 interface InterfaceProps {
     authUser?: any;
@@ -24,11 +25,24 @@ export const withAuthentication = (Component: any) => {
         }
 
         public componentDidMount() {
-            console.log("With Authen: Here?");
             firebase.auth.onAuthStateChanged(authUser => {
-                authUser
-                    ? this.setState(() => ({ authUser }))
-                    : this.setState(() => ({ authUser: null }));
+                db
+                    .getUserById(authUser.uid)
+                    .then(snapshot => {
+                        const dbUser = snapshot.val();
+                        // default empty roles
+                        if (!dbUser.roles) {
+                            dbUser.roles = {};
+                        }
+                        // merge auth and db user
+                        authUser = {
+                            uid: authUser.uid,
+                            email: authUser.email,
+                            roles: dbUser.roles,
+                            ...dbUser
+                        };
+                        this.setState({authUser: authUser});
+                    });
             });
         }
 
