@@ -12,13 +12,14 @@ interface InterfaceProps {
 interface InterfaceState {
 	error: any;
 	roles: Roles;
+	authUser?: any;
 }
 
 export class GoogleSignIn extends React.Component<InterfaceProps, InterfaceState> {
 	private static INITIAL_STATE = {
 		error: "",
 		roles: {
-			isAdmin: true,
+			isAdmin: false,
 			isMember: true
 		}
 	};
@@ -37,20 +38,42 @@ export class GoogleSignIn extends React.Component<InterfaceProps, InterfaceState
 
 		auth.doSignInWithGoogle()
 			.then((socialAuthUser: any) => {
+
 				// query server for list of allowed users/emails
 				// redirect if email is not found?
-				this.setState({error: null});
+				// this.setState({error: null});
 				history.push(routes.HOME);
-				const roles = {isAdmin: false, isMember: true};
-				console.log(socialAuthUser.user);
-				// Create a user in your own accessible Firebase Database
-				db.doCreateUser(socialAuthUser.user.uid, socialAuthUser.user.email, socialAuthUser.user.email, roles)
-					.then(() => {
-						this.setState(() => ({...GoogleSignIn.INITIAL_STATE}));
-					})
-					.catch((error: any) => {
-						this.setState(error);
-					});
+				// const roles = {isAdmin: false, isMember: true};
+				if(socialAuthUser.additionalUserInfo.isNewUser === true) {
+					db.doCreateUser(socialAuthUser.user.uid, socialAuthUser.user.email, socialAuthUser.user.email, {isAdmin: false, isMember: true})
+						.then(() => {
+							console.log('Successfully created user inFirebase DB');
+							this.setState(() => ({...GoogleSignIn.INITIAL_STATE}));
+						})
+						.catch((error: any) => {
+							this.setState(error);
+						})
+				} else {
+					db.getUserById(socialAuthUser.user.uid)
+						.then(snapshot => {
+							const dbUser = snapshot.val();
+							// default empty roles
+							if(dbUser !== undefined && dbUser !== null) {
+								if (!dbUser.roles) {
+									dbUser.roles = {};
+								}
+								this.setState({authUser: {
+										uid: socialAuthUser.user.uid,
+										email: socialAuthUser.user.email,
+										roles: dbUser.roles,
+										...dbUser
+									}});
+							}
+						})
+						.catch((e) => {
+							console.log(e);
+						})
+				}
 			})
 			.catch((e: any) => {
 				this.setState({error: e});

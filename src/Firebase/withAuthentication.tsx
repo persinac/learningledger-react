@@ -26,23 +26,30 @@ export const withAuthentication = (Component: any) => {
 
         public componentDidMount() {
             firebase.auth.onAuthStateChanged(authUser => {
-                db
-                    .getUserById(authUser.uid)
-                    .then(snapshot => {
-                        const dbUser = snapshot.val();
-                        // default empty roles
-                        if (!dbUser.roles) {
-                            dbUser.roles = {};
-                        }
-                        // merge auth and db user
-                        authUser = {
-                            uid: authUser.uid,
-                            email: authUser.email,
-                            roles: dbUser.roles,
-                            ...dbUser
-                        };
-                        this.setState({authUser: authUser});
-                    });
+                authUser ?
+                    db
+                        .getUserById(authUser.uid)
+                        .then(snapshot => {
+                            const dbUser = snapshot.val();
+                            // default empty roles
+                            if(dbUser !== undefined && dbUser !== null) {
+                                if (!dbUser.roles) {
+                                    dbUser.roles = {};
+                                }
+                                // merge auth and db user
+                                authUser = {
+                                    uid: authUser.uid,
+                                    email: authUser.email,
+                                    roles: dbUser.roles,
+                                    ...dbUser
+                                };
+                                this.setState({authUser: authUser});
+                            }
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                    : this.setState({authUser: null})
             });
         }
 

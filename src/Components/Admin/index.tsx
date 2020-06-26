@@ -77,11 +77,11 @@ class AdminComponent extends React.Component<{}, IState> {
 	}
 
 	private renderList() {
-		if (this.state.users !== null) {
+		if (this.state !== null) {
 			return (<div><p>I've mounted!!!</p></div>)
 		}
-		// if (this.state !== null) {
-		// 	return <ListOfProductOrders productHeader={this.state.productHeader} />
+		// if (this.state.users !== null) {
+		// 	return <Admin users={this.state.users} />
 		// }
 	}
 }
