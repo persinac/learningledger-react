@@ -1,7 +1,6 @@
 import React from "react";
 import {db, firebase} from "./index";
 import { authUserContext } from "./AuthUserContext";
-import * as routes from "../Constants/routes";
 
 interface InterfaceProps {
     authUser?: any;

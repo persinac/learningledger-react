@@ -1,6 +1,5 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
-import * as routes from "../Constants/routes";
 import {firebase, db} from "./index";
 import {authUserContext} from "./AuthUserContext";
 import {ComponentType} from "react";
@@ -19,7 +18,6 @@ export const withAuthorization = (condition: any, routeRedirect?: any) => (Compo
 
 		public componentDidMount() {
 			firebase.auth.onAuthStateChanged((authUser: any) => {
-				console.log(authUser);
 				authUser ?
 					db
 						.getUserById(authUser.uid)

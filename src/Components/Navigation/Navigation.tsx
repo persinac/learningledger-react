@@ -4,9 +4,7 @@ import * as ROUTES from '../../Constants/routes';
 import {SignOut} from '../SignOut';
 import {authUserContext} from '../../Firebase/AuthUserContext';
 import Nav from "react-bootstrap/Nav";
-import {withAuthorization} from "../../Firebase/withAuthorization";
 import * as ROLES from "../../Constants/roles";
-import {db} from "../../Firebase";
 
 interface INavState {
 	authUser: any
@@ -46,7 +44,7 @@ class NavigationComponent extends React.Component {
 	private returnAuthorizedLogin(isAdmin: boolean) {
 		return (
 			<Nav id={'primary-navbar'} className={'navbar navbar-expand-lg navbar-dark sticky-top bg-dark flex-md-nowrap p-0'}>
-				<div className={'navbar-brand col-sm-3 col-md-2 mr-0'}><a>WRF Center</a></div>
+				<div className={'navbar-brand col-sm-3 col-md-2 mr-0'}><a>Learning Ledger</a></div>
 				{/*<button className={"navbar-toggler"} type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 				        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span className={"navbar-toggler-icon"}></span>

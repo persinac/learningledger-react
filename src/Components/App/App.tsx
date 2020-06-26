@@ -14,6 +14,8 @@ import '../../Styles/general.css';
 import * as ROUTES from '../../Constants/routes';
 import {withAuthentication} from "../../Firebase/withAuthentication";
 import {db} from "../../Firebase";
+import {listOfOrdersPage} from "../ListOfOrders";
+import {OrderPage} from "../Order";
 
 interface IProps {
 	history?: any;
@@ -66,6 +68,8 @@ class AppComponent extends React.Component<any, IAppState> {
 							<Route path={ROUTES.HOME} component={Home}/>
 							<Route path={ROUTES.ACCOUNT} component={Account}/>
 							<Route path={ROUTES.ADMIN} component={AdminPage}/>
+							<Route exact path={ROUTES.LIST_OF_ORDERS} component={listOfOrdersPage}/>
+							<Route path={ROUTES.ORDERS} component={OrderPage}/>
 						</div>
 					</Router>
 				</div>
