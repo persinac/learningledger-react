@@ -22,6 +22,7 @@ class ListOfOrdersComponent extends React.Component<IProps, IState> {
 	}
 
 	public componentDidMount() {
+		// this will need to be a view in order to get all the data we want to highlight
 		const productURL = process.env.REACT_APP_BASE_API_URL + 'order';
 		console.log(productURL);
 		this.getWRFServerData(productURL).then(d => {

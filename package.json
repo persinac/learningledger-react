@@ -18,6 +18,7 @@
     "@types/react-router-dom": "^4.3.3",
     "@types/react-select": "^2.0.19",
     "@types/styled-components": "^4.1.15",
+    "@types/react-autosuggest": "latest",
     "bootstrap": "^4.3.1",
     "env-cmd": "^9.0.3",
     "firebase": "latest",
@@ -31,7 +32,8 @@
     "ts-lint": "^4.5.1",
     "tslint": "^5.16.0",
     "react-scripts": "3.4.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "react-autosuggest": "latest"
   },
   "scripts": {
     "start-dev": "env-cmd -f ./.env.development react-scripts start",
